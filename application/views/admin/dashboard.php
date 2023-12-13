@@ -19,6 +19,12 @@
 					</h2>
 					<p><a href="<?= site_url('admin/journal') ?>">Artikel</a></p>
 				</div>
+				<!-- <div class="card text-center" style="width: 100px;">
+					<h2>
+						<?= $product_count ?>
+					</h2>
+					<p><a href="<?= site_url('admin/product') ?>">Product</a></p>
+				</div> -->
 				<div class="card text-center" style="width: 100px;">
 					<h2>
 						<?= $feedback_count ?>

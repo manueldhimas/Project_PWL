@@ -2,40 +2,40 @@
 
 class Auth extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Auth_model');
+    }
     public function index()
     {
-        show_404();
+        $this->load->view('login');
     }
 
     public function login()
     {
-        $this->load->model('auth_model');
-        $this->load->library('form_validation');
-
-        $rules = $this->auth_model->rules();
-        $this->form_validation->set_rules($rules);
-
-        if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('login_form');
-        }
-
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        if ($this->auth_model->login($username, $password)) {
+        $result = $this->Auth_model->login($username, $password);
+
+        if ($result) {
+            $this->session->set_userdata('login', true);
+            $this->session->set_userdata('username', $username);
             redirect('admin');
         } else {
-            $this->session->set_flashdata('message_login_error', 'Login Gagal, pastikan username dan passwrod benar!');
+            $this->session->set_flashdata('message_login_error', 'Login Gagal, Username dan Password Salah!');
+            redirect('auth');
         }
 
-        $this->load->view('login_form');
     }
 
     public function logout()
     {
-        $this->load->model('auth_model');
-        $this->auth_model->logout();
-        redirect(site_url());
+        $this->session->unset_userdata('login');
+        $this->session->unset_userdata('username');
+
+        redirect('auth');
     }
 }
 ?>
